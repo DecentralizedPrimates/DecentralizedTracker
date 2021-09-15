@@ -2,11 +2,13 @@
 
 ## About the Project
 
-The **DecetralizedTracker** is a decentralized BitTorrent tracker where clients have the possibility to express their opinion about the content. The main function of the tracker is to process client requests. 
+The **DecetralizedTracker** is a decentralized BitTorrent tracker where clients have the possibility to express their opinion about the content. The DecetralizedTracker is implemented in the form of a desktop application. 
+
+### Content Filtering 
+
+The main idea is to use the opinions of clients, which will form an objective opinion of the content for its further use. Description tags (keywords) are formed based on these opinions and help others in finding the necessary content. Moreover, this estimate can be changed over time reflecting the natural evolution of human opinion.
 
 There is no special synchronization of users' tags, the set of tags about the file may differ from node to node.
-
-The DecetralizedTracker is implemented in the form of a desktop application. 
 
 ### Built with
 
@@ -47,6 +49,6 @@ Distributed under the MIT License. See ```LICENSE``` for more information.
 
 ## Contact
 
-Your Name - @your_twitter - email@example.com
+Kyrylo Volkov - cyrillicw@gmail.com
 
 Project Link: https://github.com/DecentralizedPrimates/DecentralizedTracker/
