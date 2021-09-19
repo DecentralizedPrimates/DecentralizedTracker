@@ -8,7 +8,8 @@ The **DecetralizedTracker** is a decentralized BitTorrent tracker where clients 
 
 The main idea is to use the opinions of clients, which will form an objective opinion of the content for its further use. Description tags (keywords) are formed based on these opinions and help others in finding the necessary content. Moreover, this estimate can be changed over time reflecting the natural evolution of human opinion.
 
-There is no special synchronization of users' tags, the set of tags about the file may differ from node to node.
+Clients exchange tags among themselves. However, there is no special synchronization of users' tags, so the set of tags about the file may differ from node to node.
+
 
 ### Built with
 
