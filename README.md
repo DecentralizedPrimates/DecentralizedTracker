@@ -22,6 +22,7 @@ Clients exchange tags among themselves. However, there is no special synchroniza
 - decentralized content tagging by clients;
 - filtering content by each client's tag preferences;
 - searching content by tags;
+- ability to search among different types of content (for example, video, text, audio);
 - hiding from the client content with his "taboo" tags.
 
 ## Getting started
@@ -48,8 +49,9 @@ Any contributions you make are greatly appreciated.
 
 Distributed under the MIT License. See ```LICENSE``` for more information.
 
-## Contact
+## Contacts
 
+Project Email: decentralizedtracker@gmail.com
 Kyrylo Volkov - cyrillicw@gmail.com
 
 Project Link: https://github.com/DecentralizedPrimates/DecentralizedTracker/
