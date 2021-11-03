@@ -7,7 +7,7 @@ class LazySynchornizationDecisionMaker:
         self._min_number_to_find_median = min_number_to_find_median
 
     def make_decision(self, nodes_responses: list):
-        # nodes_responses is a list of lists of node_response, where first list is a list od nodes,
+        # nodes_responses is a list of lists of node_response, where first list is a list of nodes,
         # inner lists are nodes responses
 
         votes = {}
