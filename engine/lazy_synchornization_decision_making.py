@@ -1,4 +1,4 @@
-from node_response import NodeResponse
+from engine.node_response import NodeResponse
 import numpy as np
 
 class LazySynchornizationDecisionMaker:

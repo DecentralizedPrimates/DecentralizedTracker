@@ -1,5 +1,5 @@
-from node_response import NodeResponse
-from lazy_synchornization_decision_making import LazySynchornizationDecisionMaker
+from engine.node_response import NodeResponse
+from engine.lazy_synchornization_decision_making import LazySynchornizationDecisionMaker
 import unittest
 
 
