@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from messages import TagMessage, OpinionMessage
 from storages import TagStorage, OpinionStorage
 from messageSenders import MessageSender
+from pickle import dumps
 
 
 class MessageProcessor(ABC):
@@ -30,5 +31,10 @@ class DefaultMessageProcessor(MessageProcessor):
         return bytearray()
 
     def process_opinion_message(self, message: OpinionMessage) -> bytes:
-        pass
+        top_n = self._opinion_storage.get_top_n(message)
+
+        tags_list = []
+        for response in top_n:
+            tags_list.append(self._tag_storage.get_tag(response.id, message))
+        return dumps(tuple([top_n, tags_list]))
 
