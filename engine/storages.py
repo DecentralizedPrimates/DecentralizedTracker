@@ -24,5 +24,5 @@ class OpinionStorage(ABC):
         pass
 
     @abstractmethod
-    def get_top_n(self, message: OpinionMessage):
+    def get_top_n(self, message: OpinionMessage):  # return list of NodeResponse
         pass
