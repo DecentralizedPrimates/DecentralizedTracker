@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from messages import TagMessage, OpinionMessage
+from engine.messages import TagMessage, OpinionMessage
 
 
 class TagStorage(ABC):

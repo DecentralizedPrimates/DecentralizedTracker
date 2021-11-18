@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from engine.messageProcessors import MessageProcessor
+# from engine.messageProcessors import MessageProcessor
 
 
 class Message(ABC):
 
     @abstractmethod
-    def accept(self, processor: MessageProcessor):
+    def accept(self, processor):
         pass
 
 
@@ -18,7 +18,7 @@ class TagMessage(Message):
         self.time = time
         self.salt = salt
 
-    def accept(self, processor: MessageProcessor):
+    def accept(self, processor):
         return processor.process_tag_message(self)
 
 
@@ -28,6 +28,6 @@ class OpinionMessage(Message):
         self.attribute = attribute
         self.value = value
 
-    def accept(self, processor: MessageProcessor):
+    def accept(self, processor):
         return processor.process_opinion_message(self)
 
