@@ -11,10 +11,11 @@ class Message(ABC):
 
 class TagMessage(Message):
 
-    def __init__(self, info_hash, attribute, value, salt):
+    def __init__(self, info_hash, attribute, value, time, salt):
         self.info_hash = info_hash
         self.attribute = attribute
         self.value = value
+        self.time = time
         self.salt = salt
 
     def accept(self, processor: MessageProcessor):
