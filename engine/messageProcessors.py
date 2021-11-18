@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from messages import TagMessage, OpinionMessage
-from storages import TagStorage, OpinionStorage
-from messageSenders import MessageSender
+from engine.messages import TagMessage, OpinionMessage
+from engine.storages import TagStorage, OpinionStorage
+from engine.messageSenders import MessageSender
 from pickle import dumps
 
 

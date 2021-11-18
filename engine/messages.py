@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from messageProcessors import MessageProcessor
+from engine.messageProcessors import MessageProcessor
 
 
 class Message(ABC):
