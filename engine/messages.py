@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from messageProcessors import MessageProcessor
+# from messageProcessors import MessageProcessor
 
 
 class Message(ABC):
-
-    @abstractmethod
-    def accept(self, processor: MessageProcessor):
-        pass
+    pass
+    # @abstractmethod
+    # def accept(self, processor: MessageProcessor):
+    #     pass
 
 
 class TagMessage(Message):
@@ -18,12 +18,13 @@ class TagMessage(Message):
         self.time = time
         self.salt = salt
 
-    def accept(self, processor: MessageProcessor):
-        return processor.process_tag_message(self)
+    pass
+    # def accept(self, processor: MessageProcessor):
+    #     return processor.process_tag_message(self)
 
 
 class OpinionMessage(Message):
-
-    def accept(self, processor: MessageProcessor):
-        return processor.process_opinion_message(self)
+    pass
+    # def accept(self, processor: MessageProcessor):
+    #     return processor.process_opinion_message(self)
 
