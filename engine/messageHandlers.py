@@ -1,7 +1,7 @@
 from kademlia.handlers import MessageHandler
 from pickle import loads
-from messages import Message
-from messageProcessors import MessageProcessor
+from engine.messages import Message
+from engine.messageProcessors import MessageProcessor
 
 
 class DefaultMessageHandler(MessageHandler):

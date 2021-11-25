@@ -23,11 +23,11 @@ class DefaultMessageProcessor(MessageProcessor):
         self._opinion_storage = opinion_storage
         self._message_sender = message_sender
 
-    def process_tag_message(self, message: TagMessage) -> bytes:
+    async def process_tag_message(self, message: TagMessage) -> bytes:
         if not self._tag_storage.contains_tag(message):
             self._tag_storage.put_tag(message)
             self._opinion_storage.increment_opinion(message)
-            self._message_sender.send_message(message)
+            await self._message_sender.send_message(message)
         return bytearray()
 
     def process_opinion_message(self, message: OpinionMessage) -> bytes:

@@ -1,6 +1,6 @@
 import pickle
 from abc import ABC, abstractmethod
-from messages import Message
+from engine.messages import Message
 from kademlia.network import Server
 
 
