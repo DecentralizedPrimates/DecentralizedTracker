@@ -1,5 +1,5 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
-from messageProcessors import MessageProcessor
 
 
 class Message(ABC):
@@ -26,4 +26,15 @@ class OpinionMessage(Message):
 
     def accept(self, processor: MessageProcessor):
         return processor.process_opinion_message(self)
+
+
+class MessageProcessor(ABC):
+
+    @abstractmethod
+    def process_tag_message(self, message: TagMessage) -> bytes:
+        pass
+
+    @abstractmethod
+    def process_opinion_message(self, message: OpinionMessage) -> bytes:
+        pass
 

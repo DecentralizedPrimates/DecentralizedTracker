@@ -1,18 +1,7 @@
 from abc import ABC, abstractmethod
-from messages import TagMessage, OpinionMessage
+from messages import TagMessage, OpinionMessage, MessageProcessor
 from storages import TagStorage, OpinionStorage
 from messageSenders import MessageSender
-
-
-class MessageProcessor(ABC):
-
-    @abstractmethod
-    def process_tag_message(self, message: TagMessage) -> bytes:
-        pass
-
-    @abstractmethod
-    def process_opinion_message(self, message: OpinionMessage) -> bytes:
-        pass
 
 
 class DefaultMessageProcessor(MessageProcessor):
