@@ -1,5 +1,6 @@
 import datetime
 import random
+import sys
 
 import uvicorn as uvicorn
 from fastapi import FastAPI, Depends
@@ -53,9 +54,14 @@ app = FastAPI(
     ],
 )
 
+config = AppConfig(sys.argv[1])
+global message_sender
 
-def get_message_sender():
-    return message_sender
+
+@app.on_event('startup')
+async def init_message_sender():
+    global message_sender
+    message_sender = await generate_message_sender(config)
 
 
 @app.get("/", tags=["MainDefaultSreen"])
@@ -84,10 +90,9 @@ async def add_categorie():
 
 
 @app.get("/test")
-async def test(sender: MessageSender = Depends(get_message_sender)):
-    print('here')
+async def test():
     message = TagMessage("abcd", "title", "fast and furious", datetime.datetime.now(), random.randint(0, 100))
-    sender.send_message(message)
+    asyncio.create_task(message_sender.send_message(message))
     return {""}
 
 
@@ -96,51 +101,18 @@ async def download():
     return {""}
 
 
-# def connect_to_bootstrap_node(args):
-#     loop = asyncio.get_event_loop()
-#     loop.set_debug(True)
-#
-#     loop.run_until_complete(server.listen(8469))
-#     bootstrap_node = (args.ip, int(args.port))
-#     loop.run_until_complete(server.bootstrap([bootstrap_node]))
-#
-#     try:
-#         loop.run_forever()
-#     except KeyboardInterrupt:
-#         pass
-#     finally:
-#         server.stop()
-#         loop.close()
-#
-#
-# def create_bootstrap_node():
-#     loop = asyncio.get_event_loop()
-#     loop.set_debug(True)
-#
-#     loop.run_until_complete(server.listen(8469, TestMessageHandler()))
-#
-#     try:
-#         loop.run_forever()
-#     except KeyboardInterrupt:
-#         pass
-#     finally:
-#         server.stop()
-#         loop.close()
-
-
-def generate_message_sender(config: AppConfig):
+async def generate_message_sender(config: AppConfig):
     server = Server()
     tag_storage = MockTagStorage()
     opinion_storage = MockOpinionStorage()
 
-    message_sender = DefaultMessageSender(server)
-    message_handler = DefaultMessageHandler(DefaultMessageProcessor(tag_storage, opinion_storage, message_sender))
-    asyncio.get_event_loop().run_until_complete(server.listen(config.dht_port, message_handler, config.ip))
-    asyncio.get_event_loop().run_until_complete(server.bootstrap(config.bootstrap_nodes))
-    return message_sender
+    sender = DefaultMessageSender(server)
+    message_handler = DefaultMessageHandler(DefaultMessageProcessor(tag_storage, opinion_storage, sender))
+    print(config.ip, config.dht_port)
+    await server.listen(config.dht_port, message_handler, config.ip)
+    await server.bootstrap(config.bootstrap_nodes)
+    return sender
 
 
 if __name__ == "__main__":
-    config = AppConfig('../configs/bootstrap.ini')
-    message_sender = generate_message_sender(config)
     uvicorn.run("app:app", host=config.ip, port=config.flask_port, reload="True", log_level="info")

@@ -1,7 +1,6 @@
-from client.download_torrent import DownloadTorrent
+from engine.download_torrent import DownloadTorrent
 import unittest
 import time
-import sys
 import shutil
 import os
 

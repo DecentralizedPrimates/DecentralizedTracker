@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from messages import TagMessage, OpinionMessage, MessageProcessor
 from storages import TagStorage, OpinionStorage
 from messageSenders import MessageSender
-
+import asyncio
 
 class DefaultMessageProcessor(MessageProcessor):
 
@@ -15,8 +15,8 @@ class DefaultMessageProcessor(MessageProcessor):
         if not self._tag_storage.contains_tag(message):
             self._tag_storage.put_tag(message)
             self._opinion_storage.increment_opinion(message)
-            self._message_sender.send_message(message)
-        return bytearray()
+            asyncio.create_task(self._message_sender.send_message(message))
+        return bytes()
 
     def process_opinion_message(self, message: OpinionMessage) -> bytes:
         pass
