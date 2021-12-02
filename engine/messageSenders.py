@@ -16,7 +16,8 @@ class DefaultMessageSender(MessageSender):
     def __init__(self, server: Server):
         self._server = server
 
-    async def send_message(self, message: Message):
+    def send_message(self, message: Message):
         b: bytes = pickle.dumps(message)
-        return await self._server.query(b)
+        print(b)
+        return self._server.query(b)
 

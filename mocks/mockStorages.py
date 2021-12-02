@@ -12,6 +12,7 @@ class MockTagStorage(TagStorage):
 
     def put_tag(self, tag: TagMessage):
         self._tags.add(tag)
+        print("tag put")
 
     def get_tag(self, info_hash, message: OpinionMessage) -> TagMessage:
         pass
@@ -27,6 +28,7 @@ class MockOpinionStorage(OpinionStorage):
         if key not in self._opinions:
             self._opinions[key] = 0
         self._opinions[key] += 1
+        print("opinion incremented")
 
     def get_top_n(self, message: OpinionMessage):
         pass
