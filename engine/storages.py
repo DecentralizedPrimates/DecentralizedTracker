@@ -9,27 +9,54 @@ class TagStorage(ABC):
             CREATE TABLE IF NOT EXISTS Tags (
                 info_hash TEXT PRIMARY KEY,
                 attribute TEXT,
-                time TIMESTAMP,
+                value TEXT,
+                time INT,
                 salt TEXT
             );
         """)
 
     @abstractmethod
     def contains_tag(self, tag: TagMessage) -> bool:
-        pass
+        result = DBConnector().fetchone(
+            "SELECT * FROM Tags WHERE info_hash = ?;",
+            tag.info_hash
+        )
+        if result:
+            return True
+        
+        return False
 
     @abstractmethod
     def put_tag(self, tag: TagMessage):
-        pass
+        DBConnector().execute("""
+            INSERT INTO Tags VALUES (?, ?, ?, ?);
+        """, (tag.info_hash, tag.attribute, tag.value, tag.time, tag.salt)
+        )
+
+
+    def delete_tag(self, tag: TagMessage):
+        DBConnector().execute("""
+            DELETE FROM Tags WHERE info_hash=?;
+        """, tag.info_hash
+        )
+
+
+    
+
+
 
 
 class OpinionStorage(ABC):
 
+    def __init__(self):
+        DBConnector().execute("""
+            CREATE TABLE IF NOT EXISTS Opinions (
+                hash TEXT PRIMARY KEY,
+                value INT
+            );
+        """)
+    
     @abstractmethod
     def increment_opinion(self, tag: TagMessage):
         pass
 
-
-if __name__ == '__main__':
-    db_connection = sqlite3.connect('storage/db.sqlite3')
-    cursor = db_connection.cursor()

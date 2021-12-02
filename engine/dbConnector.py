@@ -23,3 +23,7 @@ class DBConnector(metaclass=SingletonMetaClass):
             self._cursor.execute(query_string, add_param)
         
         self._db_connection.commit()
+
+    def fetchone(self, query_string, add_param = None):
+        self._cursor.execute(query_string, add_param)
+        return self._cursor.fetchone()
