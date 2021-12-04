@@ -7,7 +7,12 @@ class TagMessageQuery(BaseModel):
     value: str
 
 
-class OpinionMessageQuery(BaseModel):
-    attribute: str
-    value: str
+class OpinionMessageQuery:
+
+    def __init__(self, attribute, value):
+        self.attribute = attribute
+        self.value = value
+
+class InfoQuery(BaseModel):
+    info_hash: str
 

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from engine.messages import TagMessage, OpinionMessage
+from queryEntities import InfoQuery, OpinionMessageQuery
 
 
 class TagStorage(ABC):
@@ -24,5 +25,13 @@ class OpinionStorage(ABC):
         pass
 
     @abstractmethod
-    def get_top_n(self, message: OpinionMessage):  # return list of NodeResponse
+    def get_top_n(self, message: OpinionMessageQuery):  # return list of NodeResponse
+        pass
+
+    @abstractmethod
+    def get_title(self, info_query: InfoQuery):
+        pass
+
+    @abstractmethod
+    def get_top_n_attributes(self, info_query: InfoQuery, n: int):
         pass

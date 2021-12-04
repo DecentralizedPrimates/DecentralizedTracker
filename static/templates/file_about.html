@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>DecentralizedPrimates</title>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/styles_file_about.css') }} type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="header">
+      <a href="index.html">
+        <div class="heading">DecentralizedPrimates</div>
+      </a>
+      <div class="right">
+        <div class="button-upload">
+          <a href="upload.html">Upload</a>
+        </div>
+      </div>
+    </div>
+<div class="left-filter">
+      <a href="#" style="color: #1EE3CF">Info</a><br />
+      <a>Files</a><br />
+      </div>
+<div class="description">
+<div class="text">
+<h1>{{title}}</h1>
+<h3>Tags:</h3>
+<div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+          <p style="color: white; font-size: 24px">Attribute:</p>
+          <p style="color: white; font-size: 24px">Values:</p>
+        </div>
+
+{% for tag in tags %}
+	<div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+          <p style="color: white; font-size: 24px">{{tag.attribute}}</p>
+          <p style="color: white; font-size: 24px">{{tag.value}}</p>
+        </div>
+		
+{% endfor %}
+
+<div class="button-download">
+          <a href="file-files.html">Download</a>
+</div>
+</div>
+<img src="{{ url_for('static', path='/images/img.png') }}" class="img_film" />
+</div>
+  </body>
+</html>
