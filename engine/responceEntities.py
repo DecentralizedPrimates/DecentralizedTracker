@@ -11,3 +11,12 @@ class TagInfo:
         self.attribute = attribute
         self.value = value
 
+
+class TorrentInfo:
+
+    def __init__(self, title, info_hash, size, progress):
+        self.title = title
+        self.info_hash = info_hash
+        self.size = size
+        self.progress = progress
+

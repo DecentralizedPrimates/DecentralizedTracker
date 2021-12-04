@@ -13,6 +13,7 @@ class OpinionMessageQuery:
         self.attribute = attribute
         self.value = value
 
+
 class InfoQuery(BaseModel):
     info_hash: str
 

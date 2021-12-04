@@ -47,7 +47,7 @@ class MockOpinionStorage(OpinionStorage):
             titles.sort(key=lambda x: x[1], reverse=True)
             return titles[0][0]
         except:
-            return "Unknown Title"
+            return ""
 
     def get_top_n_attributes(self, info_hash: str, n=5):
         try:
@@ -63,14 +63,17 @@ class MockOpinionStorage(OpinionStorage):
             return []
 
     def get_top_n(self, message: OpinionMessageQuery, n=10):
-        key = (message.attribute, message.value)
+        try:
+            key = (message.attribute, message.value)
 
-        dict_list = [(k, v) for k, v in self._opinions[key].items()]
-        dict_list.sort(key=lambda x: x[1])
+            dict_list = [(k, v) for k, v in self._opinions[key].items()]
+            dict_list.sort(key=lambda x: x[1])
 
-        top_n = []
-        for i in range(len(dict_list)):
-            if len(top_n) >= n:
-                break
-            top_n.append(NodeResponse(dict_list[i][0], message.attribute, message.value, dict_list[i][1]))
-        return top_n
+            top_n = []
+            for i in range(len(dict_list)):
+                if len(top_n) >= n:
+                    break
+                top_n.append(NodeResponse(dict_list[i][0], message.attribute, message.value, dict_list[i][1]))
+            return top_n
+        except:
+            return []
