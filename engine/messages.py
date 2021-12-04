@@ -24,6 +24,10 @@ class TagMessage(Message):
 
 class OpinionMessage(Message):
 
+    def __init__(self, attribute, value):
+        self.attribute = attribute
+        self.value = value
+
     def accept(self, processor: MessageProcessor):
         return processor.process_opinion_message(self)
 

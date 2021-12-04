@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from messages import TagMessage, OpinionMessage
+from engine.messages import TagMessage, OpinionMessage
 
 
 class TagStorage(ABC):
@@ -12,6 +12,10 @@ class TagStorage(ABC):
     def put_tag(self, tag: TagMessage):
         pass
 
+    @abstractmethod
+    def get_tag(self, info_hash, message: OpinionMessage) -> TagMessage:
+        pass
+
 
 class OpinionStorage(ABC):
 
@@ -19,3 +23,6 @@ class OpinionStorage(ABC):
     def increment_opinion(self, tag: TagMessage):
         pass
 
+    @abstractmethod
+    def get_top_n(self, message: OpinionMessage):  # return list of NodeResponse
+        pass
