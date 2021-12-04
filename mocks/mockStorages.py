@@ -1,6 +1,6 @@
 from engine.messages import TagMessage, OpinionMessage
 from engine.storages import TagStorage, OpinionStorage
-
+from engine.node_response import NodeResponse
 
 class MockTagStorage(TagStorage):
 
@@ -23,10 +23,22 @@ class MockOpinionStorage(OpinionStorage):
         self._opinions = dict()
 
     def increment_opinion(self, tag: TagMessage):
-        key = (tag.info_hash, tag.attribute, tag.value)
+        key = (tag.attribute, tag.value)
         if key not in self._opinions:
-            self._opinions[key] = 0
-        self._opinions[key] += 1
+            self._opinions[key] = dict()
+        if tag.info_hash not in self._opinions[key]:
+            self._opinions[key][tag.info_hash] = 0
+        self._opinions[key][tag.info_hash] += 1
 
-    def get_top_n(self, message: OpinionMessage):
-        pass
+    def get_top_n(self, message: OpinionMessage, n=10):
+        key = (message.attribute, message.value)
+
+        dict_list = [(k, v) for k, v in self._opinions[key].items()]
+        dict_list.sort(key=lambda x: x[1])
+
+        top_n = []
+        for i in range(len(dict_list)):
+            if len(top_n) >= 10:
+                break
+            top_n.append(NodeResponse(dict_list[i][0], message.attribute, message.value, dict_list[i][1]))
+        return top_n
