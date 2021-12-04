@@ -21,12 +21,23 @@ class MockOpinionStorage(OpinionStorage):
 
     def __init__(self):
         self._opinions = dict()
+        self._info = dict()
 
     def increment_opinion(self, tag: TagMessage):
-        key = (tag.info_hash, tag.attribute, tag.value)
+        key = (tag.attribute, tag.value)
         if key not in self._opinions:
             self._opinions[key] = 0
         self._opinions[key] += 1
 
+        if tag.info_hash not in self._info:
+            self._info[tag.info_hash] = dict()
+        if tag.attribute not in self._info[tag.info_hash]:
+            self._info[tag.info_hash][tag.attribute] = dict()
+
+
+
+
     def get_top_n(self, message: OpinionMessage):
         pass
+
+    # def get_info(self, info_hash):

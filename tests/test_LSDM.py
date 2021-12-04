@@ -1,11 +1,11 @@
 from engine.node_response import NodeResponse
-from engine.lazy_synchornization_decision_making import LazySynchornizationDecisionMaker
+from engine.lazy_synchornization_decision_making import LazySynchronizationDecisionMaker
 import unittest
 
 
 class TestLazySynchornizationDecisionMaker(unittest.TestCase):
     def setUp(self):
-        self.lsmd = LazySynchornizationDecisionMaker()
+        self.lsmd = LazySynchronizationDecisionMaker()
 
     def test_lsmd(self):
         test_list = []

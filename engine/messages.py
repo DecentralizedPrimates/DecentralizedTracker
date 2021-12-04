@@ -21,6 +21,15 @@ class TagMessage(Message):
     def accept(self, processor: MessageProcessor):
         return processor.process_tag_message(self)
 
+    def to_tuple(self):
+        return self.info_hash, self.attribute, self.value, self.time, self.salt
+
+    def __hash__(self):
+        return self.to_tuple().__hash__()
+
+    def __eq__(self, other):
+        return self.to_tuple() == other.to_tuple()
+
 
 class OpinionMessage(Message):
 

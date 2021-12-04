@@ -1,5 +1,5 @@
 from engine.node_response import NodeResponse
-from engine.lazy_synchornization_decision_making import LazySynchornizationDecisionMaker
+from engine.lazy_synchornization_decision_making import LazySynchronizationDecisionMaker
 from engine.messageHandlers import DefaultMessageHandler
 from engine.messageProcessors import DefaultMessageProcessor
 from engine.messageSenders import DefaultMessageSender

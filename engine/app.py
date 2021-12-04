@@ -11,11 +11,12 @@ from messageProcessors import DefaultMessageProcessor
 from messageSenders import DefaultMessageSender, MessageSender
 from mocks.mockStorages import MockTagStorage, MockOpinionStorage
 from kademlia.network import Server
-from messages import TagMessage
+from messages import TagMessage, OpinionMessage
+from queryEntities import TagMessageQuery, OpinionMessageQuery
 
 # For interacting with the network local client API should contain the following endpoints:
 #
-# MainDefaultSreen to display files by default on main screen. (GET)
+# MainDefaultScreen to display files by default on main screen. (GET)
 # FileSearch to find a file by name and other parameters (GET)
 # Settings (POST)
 # Upload (POST)
@@ -28,7 +29,7 @@ app = FastAPI(
     version="0.1.0",
     openapi_tags=[
         {
-            "name": "MainDefaultSreen",
+            "name": "MainDefaultScreen",
             "description": "Display files by default on main screen.",
         },
         {
@@ -64,13 +65,15 @@ async def init_message_sender():
     message_sender = await generate_message_sender(config)
 
 
-@app.get("/", tags=["MainDefaultSreen"])
+@app.get("/", tags=["MainDefaultScreen"])
 async def main_default_screen():
     return {""}
 
 
 @app.get("/file_search", tags=["FileSearch"])
-async def file_search():
+async def file_search(query: OpinionMessageQuery):
+    message = OpinionMessage(query.attribute, query.value)
+    message_sender.send_message(message)
     return {""}
 
 
@@ -85,13 +88,9 @@ async def upload():
 
 
 @app.post("/add_categorie", tags=["AddCategorie"])
-async def add_categorie():
-    return {""}
-
-
-@app.get("/test")
-async def test():
-    message = TagMessage("abcd", "title", "fast and furious", datetime.datetime.now(), random.randint(0, 100))
+async def add_categorie(query: TagMessageQuery):
+    message = TagMessage(query.info_hash, query.attribute, query.value,
+                         datetime.datetime.now(), random.randint(0, 1 << 32))
     asyncio.create_task(message_sender.send_message(message))
     return {""}
 

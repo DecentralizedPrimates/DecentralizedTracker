@@ -1,7 +1,8 @@
 from engine.node_response import NodeResponse
 import numpy as np
 
-class LazySynchornizationDecisionMaker:
+
+class LazySynchronizationDecisionMaker:
 
     def __init__(self, min_number_to_find_median=4):
         self._min_number_to_find_median = min_number_to_find_median
