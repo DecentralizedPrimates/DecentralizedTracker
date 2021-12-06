@@ -2,6 +2,7 @@ from client.singleton_meta_class import SingletonMetaClass
 from client.torrent_handle import TorrentHandle
 import libtorrent as lt
 import re
+import os
 
 
 class DownloadTorrent(metaclass=SingletonMetaClass):
@@ -29,6 +30,16 @@ class DownloadTorrent(metaclass=SingletonMetaClass):
             'info_hash': bytes.fromhex(info_hash),
             'save_path': save_path
         })
+        return TorrentHandle(torrent_handle)
+    
+
+    def add_file_torrent(self, torrent_path, save_path):
+        info = lt.torrent_info(torrent_path)
+        torrent_handle = self._session.add_torrent({
+            'ti': info,
+            'save_path': os.path.dirname(os.path.abspath(save_path))
+        })
+        return TorrentHandle(torrent_handle)
 
 
     def find_torrent(self, info_hash):

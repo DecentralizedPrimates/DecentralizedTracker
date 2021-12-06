@@ -39,6 +39,10 @@ class TorrentHandle:
         return files
     
 
+    def get_info_hash(self):
+        return self._torrent_handle.info_hash()
+    
+
     def pause(self):
         self._torrent_handle.pause()
     
