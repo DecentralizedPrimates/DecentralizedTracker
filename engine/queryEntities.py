@@ -17,3 +17,6 @@ class OpinionMessageQuery:
 class InfoQuery(BaseModel):
     info_hash: str
 
+
+class UploadTorrentQuery(BaseModel):
+    files_path: str
