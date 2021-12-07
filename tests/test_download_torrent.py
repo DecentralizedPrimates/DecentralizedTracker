@@ -1,4 +1,4 @@
-from engine.download_torrent import DownloadTorrent
+from engine.downloadTorrent import DownloadTorrent
 import unittest
 import time
 import shutil

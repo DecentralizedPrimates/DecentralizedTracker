@@ -1,8 +1,6 @@
-from client.create_torrent import CreateTorrent
-from client.download_torrent import DownloadTorrent
-import sys
-import os
-import libtorrent as lt
+from engine.createTorrent import CreateTorrent
+from engine.downloadTorrent import DownloadTorrent
+
 
 class UploadTorrent:
 

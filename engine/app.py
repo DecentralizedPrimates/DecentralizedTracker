@@ -8,7 +8,7 @@ from fastapi import FastAPI, Depends, Request
 from fastapi.templating import Jinja2Templates
 import asyncio
 from configs import AppConfig
-from download_torrent import DownloadTorrent
+from downloadTorrent import DownloadTorrent
 from storages import TagStorage, OpinionStorage
 from messageHandlers import DefaultMessageHandler
 from messageProcessors import DefaultMessageProcessor
@@ -85,15 +85,15 @@ async def init_message_sender():
 
 @app.get("/", tags=["MainDefaultScreen"])
 async def main_default_screen(request: Request, attribute: Optional[str] = None, value: Optional[str] = None):
-    # info_hash = '1E591A66A63390951470697A693B437E209D4927'
-    # tag = TagMessage(info_hash, attribute, value, datetime.datetime.now(), 1)
-    # opinion_storage.increment_opinion(tag)
-    # tag = TagMessage(info_hash, 'actor', 'Kyrylo Volkov', datetime.datetime.now(), 1)
-    # opinion_storage.increment_opinion(tag)
-    # tag = TagMessage(info_hash, 'year', '1999', datetime.datetime.now(), 1)
-    # opinion_storage.increment_opinion(tag)
-    # tag = TagMessage(info_hash, 'genre', 'fantastic', datetime.datetime.now(), 1)
-    # opinion_storage.increment_opinion(tag)
+    info_hash = '1E591A66A63390951470697A693B437E209D4927'
+    tag = TagMessage(info_hash, attribute, value, datetime.datetime.now(), 1)
+    opinion_storage.increment_opinion(tag)
+    tag = TagMessage(info_hash, 'actor', 'Kyrylo Volkov', datetime.datetime.now(), 1)
+    opinion_storage.increment_opinion(tag)
+    tag = TagMessage(info_hash, 'year', '1999', datetime.datetime.now(), 1)
+    opinion_storage.increment_opinion(tag)
+    tag = TagMessage(info_hash, 'genre', 'fantastic', datetime.datetime.now(), 1)
+    opinion_storage.increment_opinion(tag)
     if attribute is not None and value is not None:
         query = OpinionMessageQuery(attribute, value)
         info_hashes: list = [item.id for item in opinion_storage.get_top_n(query)]

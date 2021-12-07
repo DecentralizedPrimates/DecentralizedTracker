@@ -1,5 +1,5 @@
-from client.singleton_meta_class import SingletonMetaClass
-from client.torrent_handle import TorrentHandle
+from singletonMetaClass import SingletonMetaClass
+from engine.torrentHandle import TorrentHandle
 import libtorrent as lt
 import re
 import os
@@ -60,3 +60,15 @@ class DownloadTorrent(metaclass=SingletonMetaClass):
 
     def get_torrents(self):
         return [TorrentHandle(torrent_handle) for torrent_handle in self._session.get_torrents()]
+
+    def get_torrents_info(self):
+        torrents = self.get_torrents()
+        info = []
+        for torrent in torrents:
+            total_size = sum(map(lambda x: x['size'], torrent.get_files()))
+            status = torrent.get_status()
+            info.append({'title': status['name'],
+                         'info_hash': str(torrent.get_info_hash()).upper(),
+                         'progress': status['progress'],
+                         'size': total_size})
+        return info
