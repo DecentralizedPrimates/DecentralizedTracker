@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 import asyncio
 from configs import AppConfig
 from downloadTorrent import DownloadTorrent
+from engine.uploadTorrent import UploadTorrent
 from storages import TagStorage, OpinionStorage
 from messageHandlers import DefaultMessageHandler
 from messageProcessors import DefaultMessageProcessor
@@ -16,7 +17,7 @@ from messageSenders import DefaultMessageSender, MessageSender
 from mocks.mockStorages import MockTagStorage, MockOpinionStorage
 from kademlia.network import Server
 from messages import TagMessage, OpinionMessage
-from queryEntities import TagMessageQuery, OpinionMessageQuery, InfoQuery
+from queryEntities import TagMessageQuery, OpinionMessageQuery, InfoQuery, UploadTorrentQuery
 from responceEntities import ShortInfo, TagInfo, TorrentInfo
 from fastapi.staticfiles import StaticFiles
 
@@ -130,8 +131,8 @@ async def upload(request: Request):
 
 
 @app.post("/upload", tags=["Download"])
-async def upload_torrent(info_query: InfoQuery):
-    DownloadTorrent().add_torrent(info_query.info_hash, '/tmp/torrents')
+async def upload_torrent(upload_torrent_query: UploadTorrentQuery):
+    UploadTorrent(upload_torrent_query.files_path, 16 * 1024).start()
     return {""}
 
 
