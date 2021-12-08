@@ -49,9 +49,9 @@ class CreateTorrent:
 
         t.set_creator('DecentralizedTracker')
 
-        lt.set_piece_hashes(t, parent_folder, lambda x: sys.stdout.write('../client'))
+        lt.set_piece_hashes(t, parent_folder, lambda x: sys.stdout.write('../client\n'))
 
-        torrent_path = self._torrent_save_path + '/' + self.__generate_id() + '.torrent'
+        torrent_path = '../' + self._torrent_save_path + '/' + self.__generate_id() + '.torrent'
         f = open(torrent_path, 'wb+')
         f.write(lt.bencode(t.generate()))
         f.close()

@@ -19,4 +19,5 @@ class InfoQuery(BaseModel):
 
 
 class UploadTorrentQuery(BaseModel):
-    files_path: str
+    title: str
+    path: str

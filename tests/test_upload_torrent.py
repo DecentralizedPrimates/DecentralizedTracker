@@ -8,19 +8,20 @@ import os
 
 class TestUploadTorrent(unittest.TestCase):
     
-    _tmp_folder = 'tmp'
+    _tmp_folder = '/home/kyrylo/test_video'
 
     def setUp(self):
-        if os.path.isdir(self._tmp_folder):
-            shutil.rmtree(self._tmp_folder)
-        
-        os.mkdir(self._tmp_folder)
-        f = open(self._tmp_folder + "/file1.txt", "a")
-        f.write("Test 1 Test 1")
-        f.close()
-        f = open(self._tmp_folder + "/file2.txt", "a")
-        f.write("Test 2 Test 2")
-        f.close()
+        # if os.path.isdir(self._tmp_folder):
+        #     shutil.rmtree(self._tmp_folder)
+        #
+        # os.mkdir(self._tmp_folder)
+        # f = open(self._tmp_folder + "/file1.txt", "a")
+        # f.write("Test 1 Test 1")
+        # f.close()
+        # f = open(self._tmp_folder + "/file2.txt", "a")
+        # f.write("Test 2 Test 2")
+        # f.close()
+        pass
 
 
     def test_upload_torrent(self):
@@ -33,7 +34,7 @@ class TestUploadTorrent(unittest.TestCase):
         while i < 50:
 
             status = my_torrent.get_status()
-
+            DownloadTorrent().get_torrents_info()
             print('\n%.2f%% complete (down: %.1f kB/s up: %.1f kB/s peers: %d) %s, paused: %s, down_limit: %s, up_limit: %s, torrents: %d' % (
                 status['progress'] * 100,
                 status['download_rate'] / 1000,

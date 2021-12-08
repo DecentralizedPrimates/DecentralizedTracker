@@ -1,6 +1,7 @@
 import datetime
 import random
 import sys
+import time
 from typing import Optional
 
 import uvicorn as uvicorn
@@ -70,31 +71,29 @@ app.mount(
 
 config = AppConfig(sys.argv[1])
 templates = Jinja2Templates(directory="../static/templates/")
+global message_processor
 global message_sender
 global tag_storage
 global opinion_storage
+global download_torrent
+
 
 @app.on_event('startup')
 async def init_message_sender():
+    global message_processor
     global message_sender
     global tag_storage
     global opinion_storage
+    global download_torrent
     tag_storage = MockTagStorage()
     opinion_storage = MockOpinionStorage()
-    message_sender = await generate_message_sender(config)
+    download_torrent = DownloadTorrent()
+    download_torrent.cc = "ss"
+    message_processor, message_sender = await generate_message_helpers(config)
 
 
 @app.get("/", tags=["MainDefaultScreen"])
 async def main_default_screen(request: Request, attribute: Optional[str] = None, value: Optional[str] = None):
-    info_hash = '1E591A66A63390951470697A693B437E209D4927'
-    tag = TagMessage(info_hash, attribute, value, datetime.datetime.now(), 1)
-    opinion_storage.increment_opinion(tag)
-    tag = TagMessage(info_hash, 'actor', 'Kyrylo Volkov', datetime.datetime.now(), 1)
-    opinion_storage.increment_opinion(tag)
-    tag = TagMessage(info_hash, 'year', '1999', datetime.datetime.now(), 1)
-    opinion_storage.increment_opinion(tag)
-    tag = TagMessage(info_hash, 'genre', 'fantastic', datetime.datetime.now(), 1)
-    opinion_storage.increment_opinion(tag)
     if attribute is not None and value is not None:
         query = OpinionMessageQuery(attribute, value)
         info_hashes: list = [item.id for item in opinion_storage.get_top_n(query)]
@@ -113,12 +112,6 @@ async def file_about(request: Request, info_hash: str):
     return templates.TemplateResponse('file_about.html', context={
         'request': request, 'title': title, 'tags': tags, 'info_hash': info_hash})
 
-# @app.get("/file_search", tags=["FileSearch"])
-# async def file_search(query: OpinionMessageQuery):
-#     message = OpinionMessage(query.attribute, query.value)
-#     message_sender.send_message(message)
-#     return {""}
-
 
 @app.get("/settings", tags=["Settings"])
 async def settings():
@@ -130,9 +123,15 @@ async def upload(request: Request):
     return templates.TemplateResponse('upload.html', context={'request': request})
 
 
-@app.post("/upload", tags=["Download"])
+@app.post("/uploadFiles", tags=["UploadFile"])
 async def upload_torrent(upload_torrent_query: UploadTorrentQuery):
-    UploadTorrent(upload_torrent_query.files_path, 16 * 1024).start()
+    global download_torrent
+    handle = UploadTorrent(upload_torrent_query.path, 4 * 1024 * 1024, download_torrent).start()
+    handle.set_upload_limit(config.upload_rate_limit)
+    info_hash = str(handle.get_info_hash()).upper()
+    message = TagMessage(info_hash, 'title', upload_torrent_query.title,
+                         datetime.datetime.now(), random.randint(0, 1 << 32))
+    message_processor.process_tag_message(message)
     return {""}
 
 
@@ -147,16 +146,14 @@ async def add_tag(request: Request, info_hash: str):
 async def add_categorie(query: TagMessageQuery):
     message = TagMessage(query.info_hash, query.attribute, query.value,
                          datetime.datetime.now(), random.randint(0, 1 << 32))
-    if not tag_storage.contains_tag(message):
-        tag_storage.put_tag(message)
-        opinion_storage.increment_opinion(message)
-        asyncio.create_task(message_sender.send_message(message))
+    message_processor.process_tag_message(message)
     return {""}
 
 
 @app.get("/downloads", tags=["Downloads"])
 async def downloads(request: Request):
-    torrents = DownloadTorrent().get_torrents_info()
+    global download_torrent
+    torrents = download_torrent.get_torrents_info()
     infos = []
     for torrent in torrents:
         info = TorrentInfo(torrent['title'],
@@ -172,19 +169,21 @@ async def downloads(request: Request):
 
 @app.post("/download", tags=["Download"])
 async def download(info_query: InfoQuery):
-    DownloadTorrent().add_torrent(info_query.info_hash, '/tmp/torrents')
+    global download_torrent
+    handle = download_torrent.add_torrent(info_query.info_hash, config.download_path)
+    handle.set_upload_limit(config.upload_rate_limit)
     return {""}
 
 
-async def generate_message_sender(config: AppConfig):
+async def generate_message_helpers(config: AppConfig):
     server = Server()
 
     sender = DefaultMessageSender(server)
-    message_handler = DefaultMessageHandler(DefaultMessageProcessor(tag_storage, opinion_storage, sender))
-    print(config.ip, config.dht_port)
+    processor = DefaultMessageProcessor(tag_storage, opinion_storage, sender)
+    message_handler = DefaultMessageHandler(processor)
     await server.listen(config.dht_port, message_handler, config.ip)
     await server.bootstrap(config.bootstrap_nodes)
-    return sender
+    return processor, sender
 
 
 if __name__ == "__main__":

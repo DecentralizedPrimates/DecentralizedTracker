@@ -1,4 +1,4 @@
-from singletonMetaClass import SingletonMetaClass
+from engine.singletonMetaClass import SingletonMetaClass
 from engine.torrentHandle import TorrentHandle
 import libtorrent as lt
 import re
@@ -14,10 +14,8 @@ class DownloadTorrent(metaclass=SingletonMetaClass):
         if not self._session:
             self._session = lt.session({'listen_interfaces': '0.0.0.0:6881'})
     
-    
     def __get_torrent_handle(self, info_hash):
         return self._session.find_torrent(lt.sha1_hash(bytes.fromhex(info_hash)))
-    
 
     def add_torrent(self, info_hash, save_path):
         if not re.match(r'^[a-f\d]{40}$', info_hash, re.IGNORECASE):
@@ -65,7 +63,10 @@ class DownloadTorrent(metaclass=SingletonMetaClass):
         torrents = self.get_torrents()
         info = []
         for torrent in torrents:
-            total_size = sum(map(lambda x: x['size'], torrent.get_files()))
+            try:
+                total_size = sum(map(lambda x: x['size'], torrent.get_files()))
+            except:
+                total_size = 0
             status = torrent.get_status()
             info.append({'title': status['name'],
                          'info_hash': str(torrent.get_info_hash()).upper(),

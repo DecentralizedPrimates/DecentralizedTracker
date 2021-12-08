@@ -48,18 +48,18 @@
       </div>
 <script>
 function upload() {
-			fetch('/upload', {
-            	method: 'POST',
-            	headers: {
-                'Content-Type': 'application/json'
-            	},
-            	body: JSON.stringify({
-			title: document.getElementById("title")["value"],
-			path: document.getElementById("path")["value"]
-            	})
+    fetch('/uploadFiles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: document.getElementById("title")["value"],
+            path: document.getElementById("path")["value"]
         })
-		   document.getElementById('title').value = '';
-              document.getElementById('path').value = '';
+    })
+    document.getElementById('title').value = '';
+    document.getElementById('path').value = '';
 }
 
 </script>

@@ -17,3 +17,4 @@ class AppConfig:
             port = int(port)
             self.bootstrap_nodes.append((ip, port))
         self.download_path = configs['DEFAULT']['DownloadPath']
+        self.upload_rate_limit = int(configs['DEFAULT']['UploadRateLimit'])
