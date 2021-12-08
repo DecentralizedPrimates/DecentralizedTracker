@@ -1,0 +1,3 @@
+[submodule "kademlia"]
+	path = kademlia
+	url = https://github.com/DecentralizedPrimates/kademlia

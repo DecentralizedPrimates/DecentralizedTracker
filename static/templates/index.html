@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>DecentralizedPrimates</title>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/styles_index.css') }} type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+      <script>
+          function searchUrl() {
+              let query = document.getElementById('search').value
+              let g = query.split("=")
+              let attribute = g[0]
+              let value = g[1]
+              window.location = `/?attribute=${attribute}&value=${value}`
+          }
+      </script>
+  </head>
+  <body>
+    <div class="header">
+      <a href="/">
+        <div class="heading">DecentralizedPrimates</div>
+      </a>
+      <div class="search">
+        <input type="text" name="" placeholder="Search" class="text" id="search"/>
+        <a href="#" onClick="searchUrl(); return false;" class="btn"><i class="fa fa-search"></i></a>
+      </div>
+      <div class="right">
+        <div class="button-upload">
+          <a href="upload">Upload</a>
+        </div>
+      </div>
+    </div>
+    <div class="uploads-and-downloads">
+      <a href="downloads">Downloads</a>
+    </div>
+    <div class="films-wrapper">
+    	 {% for file in files %}
+		<a href="file_about?info_hash={{file.info_hash}}">
+     			<div class="film_poster">
+				<img src="{{ url_for('static', path='/images/img.png') }}" class="img_film" />
+				<div class="film-about">
+					<p class="film-name">{{file.title}}</p>
+        			</div>
+     			</div>
+		</a>
+	{% endfor %}
+   </div>
+
+  </body>
+</html>
+

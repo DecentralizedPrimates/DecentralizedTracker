@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>DecentralizedPrimates</title>
+	<link rel="stylesheet" href={{ url_for('static', path='/css/styles_downloads.css') }} type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="header">
+      <a href="/">
+        <div class="heading">DecentralizedPrimates</div>
+      </a>
+      <div class="right">
+        <div class="button-upload">
+          <a href="upload">Upload</a>
+        </div>
+      </div>
+</div>
+<h1> Downloads </h1>
+<div class="container" style="background-color: transparent; font-size: 18px">
+            <p class="file-name">Name</p>
+            <p class="file-size">Size MB</p>
+		<p class="file-progress">Progress %</p>
+          </div>
+{% for file in files %}
+
+          <div class="container">
+            <p style="color: black" class="file-name">{{file.title}}</p>
+            <p  style="color: black" class="file-size">{{file.size}}</p>
+		<p style="color: black" class="file-progress">{{file.progress}}</p>
+           <div class="go-to">
+          <a href="add_tag?info_hash={{ file.info_hash }}">Add a tag</a>
+        </div>
+          </div>
+  {% endfor %}
+
+</body>
+</html>

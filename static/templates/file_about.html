@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>DecentralizedPrimates</title> 
+    <link rel="stylesheet" href={{ url_for('static', path='/css/styles_file_about.css') }} type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      function sendForm() {
+        console.log("hello")
+        fetch('/download', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                info_hash: "{{ info_hash }}"
+            })
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <a href="/">
+        <div class="heading">DecentralizedPrimates</div>
+      </a>
+      <div class="right">
+        <div class="button-upload">
+          <a href="upload">Upload</a>
+        </div>
+      </div>
+    </div>
+<div class="description">
+<div class="text">
+<h1>{{title}}</h1>
+<h2>Tags:</h2>
+
+{% for tag in tags %}
+	<div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+          <p style="color: white; font-size: 18px">{{tag.attribute}}</p>
+          <p style="color: white; font-size: 18px">{{tag.value}}</p>
+        </div>
+		
+{% endfor %}
+
+<form>
+<input type="button"  class="button-download" style="margin-top: 20px" value="Download" onClick="sendForm()">
+</form>
+</div>
+<img src="{{ url_for('static', path='/images/img.png') }}" class="img_film" />
+</div>
+  </body>
+</html>

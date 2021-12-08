@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>DecentralizedPrimates</title>
+	<link rel="stylesheet" href={{ url_for('static', path='/css/styles_add_tag.css') }} type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="header">
+      <a href="/">
+        <div class="heading">DecentralizedPrimates</div>
+      </a>
+	<div>
+	<a href="javascript:history.back()" style="color: #FFFFFF; font-size: 24px; font-style: italic; text-decoration: underline; line-height: 40px">Back to Download List</a>
+	</div>
+      <div class="right">
+        <div class="button-upload">
+          <a href="upload">Upload</a>
+        </div>
+      </div>
+</div>
+<h1> {{ title }}</h1>
+<div style="margin-top: 80px">
+        <p style="text-align: center; color: white; font-size: 24px">Tag:</p>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+<label
+          style="
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            line-height: 4ch;
+          "
+          for="attribute"
+          >Attribute:</label
+        >
+
+        <input
+          class="name_input"
+          font-size: 24px"
+          type="text"
+		backdround-color: #0D3F67;
+          id="attribute"
+		name="attribute"
+        /></div>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+<label
+          style="
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            line-height: 4ch;
+          "
+          for="value"
+          >Value:</label
+        >
+
+        <input
+          class="name_input"
+          font-size: 24px"
+          type="text"
+		backdround-color: #0D3F67;
+          id="value"
+		name="value"
+        /></div>
+<div style="display: flex; justify-content: center; margin-top: 80px">
+          <input type="submit" value="Send a tag" class="upload_btn" onclick="sendTag()"> </div>
+
+      </div>
+<script>
+      function sendTag() {
+			fetch('/add_categorie', {
+            	method: 'POST',
+            	headers: {
+                'Content-Type': 'application/json'
+            	},
+            	body: JSON.stringify({
+                info_hash: "{{ info_hash }}",
+			attribute: document.getElementById("attribute")["value"],
+			value: document.getElementById("value")["value"]
+            	})
+        })
+    	   	   document.getElementById('attribute').value = '';
+              document.getElementById('value').value = '';
+
+      }
+    </script>
+
+</body>
+</html>
